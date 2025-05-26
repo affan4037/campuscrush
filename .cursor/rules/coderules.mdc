@@ -1,0 +1,30 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Your rule content
+
+First Rule:
+- You can @ files here
+- You can use markdown but dont have to
+
+Whenever you apply code, follow these rules;
+1. Use substitution, not addition - Replace existing code instead of duplicating patterns with slight modifications
+2. DRY principle always - Don't Repeat Yourself. Identify patterns and extract them into reusable functions
+3. Be minimal - Solve exactly what I asked for without adding extra features I didn't request
+4. Avoid code bloat - Each line must justify its existence; remove anything not directly addressing my need
+5. Optimize existing structures - Work within the existing code patterns when possible
+6. Focus on the specific problem - Don't rewrite unrelated parts of the file
+7. Simplify, don't complicate - Provide the simplest solution that solves the exact problem
+8. respect my coding style - Match the patterns and conventions already in my codebase
+9. Add brief git commit at the end when all changes are made.
+
+Second Rule:
+There are 2 questions that I am always curious about and you have to remember it for anything that I ask you for;
+1. Why it exists in the world?
+2. Why it is called whatever it is called?
+
+You have to explain things simply using my 'Make it Simple' filter by answering the questiion which says;
+'What it would look like if it were simple?'

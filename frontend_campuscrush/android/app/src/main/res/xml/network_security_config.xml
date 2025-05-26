@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Allow cleartext traffic for debug builds -->
+    <debug-overrides>
+        <trust-anchors>
+            <!-- Trust user-added CAs for debug builds -->
+            <certificates src="user" />
+            <certificates src="system" />
+        </trust-anchors>
+    </debug-overrides>
+
+    <!-- Base config for all domains -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <!-- Domain-specific configurations -->
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- Allow cleartext traffic to local development servers -->
+        <domain includeSubdomains="true">192.168.0.101</domain>
+        <domain includeSubdomains="true">10.1.32.212</domain>
+        <domain includeSubdomains="true">10.0.2.2</domain>
+        <domain includeSubdomains="true">localhost</domain>
+        <domain includeSubdomains="true">127.0.0.1</domain>
+    </domain-config>
+
+    <!-- Railway production configuration -->
+    <domain-config>
+        <!-- Railway specific URL -->
+        <domain includeSubdomains="true">honest-perfection-production-ccc8.up.railway.app</domain>
+        <!-- General Railway domains -->
+        <domain includeSubdomains="true">railway.app</domain>
+        <domain includeSubdomains="true">up.railway.app</domain>
+        <!-- Trust only system CAs for production endpoints -->
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </domain-config>
+
+    <!-- R2 storage configuration -->
+    <domain-config>
+        <!-- Cloudflare R2 domain -->
+        <domain includeSubdomains="true">r2.dev</domain>
+        <domain includeSubdomains="true">r2.cloudflarestorage.com</domain>
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </domain-config>
+</network-security-config> 

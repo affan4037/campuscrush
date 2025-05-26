@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "744728450670",
+    "project_id": "campus-crush-2cf08",
+    "storage_bucket": "campus-crush-2cf08.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744728450670:android:50708697b01bfc9af8387f",
+        "android_client_info": {
+          "package_name": "com.example.campus_crush"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "744728450670-042q14rdfvlb4mm64hd8po9ha7ir79fi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.campus_crush",
+            "certificate_hash": "c781190775480e6c029742d5bbecaa03cc6fc1f3"
+          }
+        },
+        {
+          "client_id": "744728450670-qd068bqlblftflou0e20q4uit85g49ps.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRoWHtKbBI3XwdVMXjGKXvZwUVxUIoCSY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "744728450670-qd068bqlblftflou0e20q4uit85g49ps.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
