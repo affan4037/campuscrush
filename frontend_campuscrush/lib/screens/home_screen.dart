@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Text(
         count > 9 ? '9+' : count.toString(),
         style: const TextStyle(
-          color: Colors.white,
+          color: Color.fromARGB(255, 163, 147, 147),
           fontSize: 10,
           fontWeight: FontWeight.bold,
         ),
