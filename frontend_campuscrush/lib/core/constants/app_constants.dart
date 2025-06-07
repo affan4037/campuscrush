@@ -13,7 +13,7 @@ class AppConstants {
   static const String appVersion = '1.0.0';
 
   // API configuration
-  static const String baseUrl = "https://campuscrush-production.up.railway.app";
+  static const String baseUrl = "https://campuscrush-sb89.onrender.com";
   static const List<String> fallbackBaseUrls = [
     'http://192.168.0.101:8000',
     'http://10.1.32.212:8000',
