@@ -7,10 +7,10 @@ class ApiTestScreen extends StatefulWidget {
   const ApiTestScreen({Key? key}) : super(key: key);
 
   @override
-  _ApiTestScreenState createState() => _ApiTestScreenState();
+  ApiTestScreenState createState() => ApiTestScreenState();
 }
 
-class _ApiTestScreenState extends State<ApiTestScreen> {
+class ApiTestScreenState extends State<ApiTestScreen> {
   bool _isLoading = false;
   String _resultMessage = '';
   bool _isSuccess = false;

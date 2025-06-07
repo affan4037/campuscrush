@@ -271,6 +271,8 @@ class GoogleAuthService extends ChangeNotifier {
 
         // Store token using the storage service (which now handles both secure storage and prefs)
         await _storageService.saveAuthToken(accessToken);
+        debugPrint(
+            '🟢 saveAuthToken called from GoogleAuthService with token: $accessToken');
 
         _token = accessToken;
         _apiService.setAuthToken(accessToken);

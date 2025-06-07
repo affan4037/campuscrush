@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import '../../user_management/models/user.dart';
-import '../../../core/constants/app_constants.dart';
 
 class Post {
   final String id;
@@ -30,74 +29,6 @@ class Post {
     this.isLikedByCurrentUser = false,
     this.currentUserReactionType,
   });
-
-  String? get cachedMediaUrl {
-    if (mediaUrl == null || mediaUrl!.isEmpty) return null;
-
-    String adjustedUrl = mediaUrl!;
-
-    // Fix localhost URLs that might not work on mobile devices
-    if (adjustedUrl.contains('localhost') ||
-        adjustedUrl.contains('127.0.0.1') ||
-        adjustedUrl.contains('10.0.2.2')) {
-      final baseUrlDomain = Uri.parse(AppConstants.baseUrl).host;
-      adjustedUrl = adjustedUrl
-          .replaceAll('localhost:8000', baseUrlDomain)
-          .replaceAll('127.0.0.1:8000', baseUrlDomain)
-          .replaceAll('10.0.2.2:8000', baseUrlDomain);
-    }
-
-    // Ensure URL is fully qualified
-    if (adjustedUrl.startsWith('/') && !adjustedUrl.startsWith('//')) {
-      adjustedUrl = '${AppConstants.baseUrl}$adjustedUrl';
-    }
-
-    // Fix media path
-    adjustedUrl = _tryFixMediaPath(adjustedUrl);
-
-    // Add cache busting parameter
-    if (!adjustedUrl.contains('t=') && !adjustedUrl.contains('timestamp=')) {
-      final timestamp = DateTime.now().millisecondsSinceEpoch;
-      final separator = adjustedUrl.contains('?') ? '&' : '?';
-      return '$adjustedUrl${separator}t=$timestamp';
-    }
-
-    return adjustedUrl;
-  }
-
-  String? get mediaFilename {
-    if (mediaUrl == null || mediaUrl!.isEmpty) return null;
-
-    try {
-      final uri = Uri.parse(mediaUrl!);
-      if (uri.pathSegments.isNotEmpty) {
-        return uri.pathSegments.last;
-      }
-    } catch (_) {
-      // Extract filename using string operations as fallback
-      final segments = mediaUrl!.split('/');
-      if (segments.isNotEmpty) {
-        final lastSegment = segments.last;
-        return lastSegment.contains('?')
-            ? lastSegment.split('?').first
-            : lastSegment;
-      }
-    }
-
-    return null;
-  }
-
-  String _tryFixMediaPath(String url) {
-    try {
-      final filename = mediaFilename;
-      if (filename == null) return url;
-
-      return AppConstants.createImageUrl(filename, category: 'post_media');
-    } catch (e) {
-      debugPrint('Error fixing media path: $e');
-      return url;
-    }
-  }
 
   factory Post.fromJson(Map<String, dynamic> json) {
     try {

@@ -262,7 +262,7 @@ class _ProfileAvatarState extends State<ProfileAvatar> {
       placeholder: (context, url) {
         return CircleAvatar(
           radius: radius,
-          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.3),
+          backgroundColor: Theme.of(context).primaryColor.withValues(alpha: 77),
           child: const CircularProgressIndicator(
             strokeWidth: _imagePlaceholderStrokeWidth,
             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),

@@ -257,7 +257,8 @@ class AppTheme {
       color: cardColor,
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: borderRadius),
-      shadowColor: Colors.black.withOpacity(shadowOpacity),
+      shadowColor: Colors.black
+          .withValues(alpha: (shadowOpacity * 255).round().toDouble()),
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
     );
   }

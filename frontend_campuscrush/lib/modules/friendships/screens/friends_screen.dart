@@ -10,26 +10,27 @@ import '../services/friendship_service.dart';
 
 class FriendsScreen extends StatefulWidget {
   final String? userId;
-  
+
   const FriendsScreen({Key? key, this.userId}) : super(key: key);
 
   @override
-  _FriendsScreenState createState() => _FriendsScreenState();
+  FriendsScreenState createState() => FriendsScreenState();
 }
 
-class _FriendsScreenState extends State<FriendsScreen> {
+class FriendsScreenState extends State<FriendsScreen> {
   bool _isLoading = false;
   String? _error;
   List<User> _friends = [];
   late FriendshipService _friendshipService;
-  
+
   @override
   void initState() {
     super.initState();
-    _friendshipService = FriendshipService(Provider.of<ApiService>(context, listen: false));
+    _friendshipService =
+        FriendshipService(Provider.of<ApiService>(context, listen: false));
     _loadFriends();
   }
-  
+
   Future<void> _loadFriends() async {
     if (mounted) {
       setState(() {
@@ -37,10 +38,10 @@ class _FriendsScreenState extends State<FriendsScreen> {
         _error = null;
       });
     }
-    
+
     try {
       final friends = await _friendshipService.getFriends();
-      
+
       if (mounted) {
         setState(() {
           _friends = friends;
@@ -56,16 +57,16 @@ class _FriendsScreenState extends State<FriendsScreen> {
       }
     }
   }
-  
+
   Future<void> _removeFriend(String friendId) async {
     try {
       await _friendshipService.removeFriend(friendId);
-      
+
       if (mounted) {
         setState(() {
           _friends.removeWhere((friend) => friend.id == friendId);
         });
-        
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Friend removed successfully')),
         );
@@ -78,7 +79,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
       }
     }
   }
-  
+
   void _navigateToUserProfile(String userId) {
     Navigator.pushNamed(
       context,
@@ -89,7 +90,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
       },
     );
   }
-  
+
   void _showFriendOptions(User friend) {
     showModalBottomSheet(
       context: context,
@@ -106,7 +107,8 @@ class _FriendsScreenState extends State<FriendsScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.delete, color: Colors.red),
-            title: Text('Remove ${friend.fullName} as Friend', style: const TextStyle(color: Colors.red)),
+            title: Text('Remove ${friend.fullName} as Friend',
+                style: const TextStyle(color: Colors.red)),
             onTap: () {
               Navigator.pop(context);
               _showRemoveFriendConfirmation(friend);
@@ -116,13 +118,14 @@ class _FriendsScreenState extends State<FriendsScreen> {
       ),
     );
   }
-  
+
   void _showRemoveFriendConfirmation(User friend) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Remove Friend'),
-        content: Text('Are you sure you want to remove ${friend.fullName} as a friend?'),
+        content: Text(
+            'Are you sure you want to remove ${friend.fullName} as a friend?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -139,7 +142,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
       ),
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,7 +151,8 @@ class _FriendsScreenState extends State<FriendsScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.person_add),
-            onPressed: () => Navigator.pushNamed(context, AppRouter.friendRequests),
+            onPressed: () =>
+                Navigator.pushNamed(context, AppRouter.friendRequests),
             tooltip: 'Friend Requests',
           ),
         ],
@@ -159,23 +163,23 @@ class _FriendsScreenState extends State<FriendsScreen> {
       ),
     );
   }
-  
+
   Widget _buildBody() {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
-    
+
     if (_error != null) {
       return ErrorDisplay(
         error: _error!,
         onRetry: _loadFriends,
       );
     }
-    
+
     if (_friends.isEmpty) {
       return _buildEmptyState();
     }
-    
+
     return _buildFriendsList();
   }
 
@@ -197,7 +201,8 @@ class _FriendsScreenState extends State<FriendsScreen> {
           ),
           const SizedBox(height: 24),
           ElevatedButton(
-            onPressed: () => Navigator.pushNamed(context, AppRouter.friendRequests),
+            onPressed: () =>
+                Navigator.pushNamed(context, AppRouter.friendRequests),
             child: const Text('Find Friends'),
           ),
         ],
@@ -234,4 +239,4 @@ class _FriendsScreenState extends State<FriendsScreen> {
       },
     );
   }
-} 
+}

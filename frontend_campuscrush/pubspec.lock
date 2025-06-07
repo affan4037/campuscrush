@@ -624,7 +624,7 @@ packages:
     source: hosted
     version: "3.2.2"
   http_parser:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http_parser
       sha256: "178d74305e7866013777bab2c3d8726205dc5a4dd935297175b19a23a2e66571"
@@ -1266,7 +1266,7 @@ packages:
     source: hosted
     version: "0.3.1"
   synchronized:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: synchronized
       sha256: "69fe30f3a8b04a0be0c15ae6490fc859a78ef4c43ae2dd5e8a623d45bfcf9225"

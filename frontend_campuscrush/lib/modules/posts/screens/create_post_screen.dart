@@ -131,6 +131,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       _showSnackbar('Post created successfully!', isSuccess: true);
       await Future.delayed(const Duration(milliseconds: 500));
+      if (!mounted) return;
       Navigator.pop(context, true);
     } catch (e) {
       if (!mounted) return;
@@ -298,7 +299,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             child: Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withValues(alpha: 50),
                 shape: BoxShape.circle,
               ),
               child: const Icon(

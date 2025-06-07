@@ -33,8 +33,10 @@ class _FeedListState extends State<FeedList> {
   }
 
   void _initializeFeed() {
-    Future.microtask(
-        () => Provider.of<HomeFeedProvider>(context, listen: false).initFeed());
+    Future.microtask(() {
+      if (!mounted) return;
+      Provider.of<HomeFeedProvider>(context, listen: false).initFeed();
+    });
   }
 
   void _onScroll() {

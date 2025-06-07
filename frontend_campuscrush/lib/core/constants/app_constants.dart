@@ -15,8 +15,7 @@ class AppConstants {
   // API configuration
   static const String baseUrl = "https://campuscrush-sb89.onrender.com";
   static const List<String> fallbackBaseUrls = [
-    'http://192.168.0.101:8000',
-    'http://10.1.32.212:8000',
+    'http://192.168.10.7:8000',
   ];
   static const bool enableNetworkLogging = true;
   static const String apiPrefix = '/api/v1';

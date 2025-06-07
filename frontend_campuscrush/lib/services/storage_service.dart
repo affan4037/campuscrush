@@ -63,9 +63,11 @@ class StorageService {
 
   // Auth token operations
   Future<void> saveAuthToken(String token) async {
+    debugPrint('🟢 saveAuthToken called with token: $token');
     try {
       // Always store in secure storage first
       await _secureStorage.write(key: AppConstants.tokenKey, value: token);
+      debugPrint('🟢 Token written to secure storage: $token');
 
       // Also save to shared preferences for backup and easier access
       final prefs = await SharedPreferences.getInstance();
@@ -83,6 +85,7 @@ class StorageService {
       // Try secure storage first
       final secureToken = await _secureStorage.read(key: AppConstants.tokenKey);
       if (secureToken != null && secureToken.isNotEmpty) {
+        debugPrint('JWT: $secureToken');
         return secureToken;
       }
 
@@ -100,6 +103,7 @@ class StorageService {
             '🔄 Restored token from shared preferences to secure storage');
       }
 
+      debugPrint('JWT: ${prefToken ?? 'null'}');
       return prefToken;
     } catch (e) {
       debugPrint('❌ Error retrieving auth token: $e');

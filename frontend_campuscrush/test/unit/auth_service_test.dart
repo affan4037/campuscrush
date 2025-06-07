@@ -189,7 +189,6 @@ class TestAuthService extends AuthService {
   TestAuthService(ApiService apiService, StorageService storageService)
       : super(apiService, storageService);
 
-  @override
   Dio createDio() {
     return MockDio();
   }
@@ -222,11 +221,10 @@ class TestAuthService extends AuthService {
   }
 
   // Method for account deletion in tests
-     Future<bool> deleteUser(String password) async {
+  Future<bool> deleteUser(String password) async {
     if (password == 'valid_password') {
       await logout();
-        
-    } 
+    }
     return false;
   }
 }

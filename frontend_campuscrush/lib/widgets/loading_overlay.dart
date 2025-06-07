@@ -42,7 +42,8 @@ class LoadingOverlay extends StatelessWidget {
     final Color actualIndicatorColor = indicatorColor ?? AppColors.primary;
 
     return Container(
-      color: overlayColor?.withOpacity(opacity),
+      color:
+          overlayColor?.withValues(alpha: (opacity * 255).round().toDouble()),
       child: Center(
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
@@ -51,7 +52,7 @@ class LoadingOverlay extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 11),
                 blurRadius: 10,
                 spreadRadius: 1,
               ),

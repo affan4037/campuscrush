@@ -26,7 +26,7 @@ class LoadingOverlay extends StatelessWidget {
 
   Widget _buildLoadingIndicator() {
     return Container(
-      color: Colors.white.withOpacity(0.7),
+      color: Colors.white.withValues(alpha: 179),
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,

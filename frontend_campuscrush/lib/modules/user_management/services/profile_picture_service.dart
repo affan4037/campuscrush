@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 // Temporarily removed image_cropper due to build issues
 // import 'package:image_cropper/image_cropper.dart';
@@ -13,23 +12,13 @@ class ProfilePictureService {
   ProfilePictureService(this._apiService);
 
   /// Picks an image from gallery for profile picture
-  Future<File?> pickImage(BuildContext context) async {
+  Future<File?> pickImage() async {
     final picker = ImagePicker();
     final image = await picker.pickImage(
       source: ImageSource.gallery,
       imageQuality: 85,
     );
-
-    if (image == null) return null;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Image selected. Cropping feature coming soon.'),
-        duration: Duration(seconds: 2),
-      ),
-    );
-
-    return File(image.path);
+    return image == null ? null : File(image.path);
   }
 
   /// Clears cached images when profile picture is updated

@@ -2,14 +2,14 @@
 
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:image_picker/image_picker.dart';
+
 // Assuming you have a constants file for your base URL
 // import 'package:campus_crush/core/constants/app_constants.dart';
 
 class MediaService {
   final Dio _dio = Dio();
   // Replace with your actual backend base URL or import from constants
-  final String baseUrl = 'YOUR_FASTAPI_BASE_URL';
+  final String baseUrl = 'BASE_URL';
 
   Future<String> uploadFile(File file) async {
     try {

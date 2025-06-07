@@ -71,12 +71,14 @@ class TokenManager {
 
   /// Stores token in all storage locations and updates API service
   Future<void> setToken(String token) async {
+    debugPrint('🟢 setToken called with token: $token');
     if (token.isEmpty) {
       throw ArgumentError('Token cannot be empty');
     }
 
     try {
       await _secureStorage.write(key: AppConstants.tokenKey, value: token);
+      debugPrint('🟢 Token written to secure storage: $token');
       _currentToken = token;
       _apiService.setAuthToken(token);
       await _storageService.saveAuthToken(token);
