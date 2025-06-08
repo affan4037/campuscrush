@@ -150,7 +150,7 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
     return Container(
       padding: const EdgeInsets.all(AppConstants.smallPadding),
       decoration: BoxDecoration(
-        color: Colors.red.withOpacity(0.1),
+        color: Colors.red.withValues(alpha: 11),
         borderRadius: BorderRadius.circular(AppConstants.defaultBorderRadius),
       ),
       child: Text(

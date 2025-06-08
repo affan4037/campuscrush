@@ -105,13 +105,18 @@ class _PeopleYouMayKnowWidgetState extends State<PeopleYouMayKnowWidget> {
     try {
       // Load friends
       final friends = await _friendshipService.getFriends();
-      excludeIds.addAll(friends.map((f) => f.id));
+      for (final f in friends) {
+        if (f.id is String) {
+          excludeIds.add(f.id);
+        }
+      }
 
       // Load sent requests
       final sentRequests = await _friendshipService.getSentFriendRequests();
       for (final request in sentRequests) {
-        if (request.receiverId.isNotEmpty) {
-          excludeIds.add(request.receiverId);
+        final receiverId = request.receiverId;
+        if (receiverId is String && receiverId.isNotEmpty) {
+          excludeIds.add(receiverId);
         }
       }
 
@@ -119,8 +124,9 @@ class _PeopleYouMayKnowWidgetState extends State<PeopleYouMayKnowWidget> {
       final receivedRequests =
           await _friendshipService.getReceivedFriendRequests();
       for (final request in receivedRequests) {
-        if (request.senderId.isNotEmpty) {
-          excludeIds.add(request.senderId);
+        final senderId = request.senderId;
+        if (senderId is String && senderId.isNotEmpty) {
+          excludeIds.add(senderId);
         }
       }
     } catch (e) {

@@ -65,7 +65,6 @@ class ApiService {
   bool get hasAuthToken => _authToken != null && _authToken!.isNotEmpty;
 
   static const _redirectStatusCodes = [301, 302, 307, 308];
-  static const _defaultTimeout = Duration(seconds: 30);
 
   ApiService({required this.baseUrl}) {
     _initDio();
@@ -1070,6 +1069,21 @@ class ApiService {
       }
     } catch (e) {
       debugPrint('❌ Error loading token from storage: $e');
+    }
+  }
+
+  Future<ApiResponse<T>> _executeRequest<T>(
+      Future<Response> Function() requestFn) async {
+    try {
+      // Log the token and headers before every request
+      debugPrint('ApiService: Using token: [32m[1m[4m[7m$_authToken[0m');
+      debugPrint('ApiService: Dio headers: [36m${_dio.options.headers}[0m');
+      final response = await requestFn();
+      return _processResponse<T>(response);
+    } on DioException catch (e) {
+      return _handleDioError<T>(e);
+    } catch (e) {
+      return ApiResponse.error('Unexpected error: $e');
     }
   }
 }

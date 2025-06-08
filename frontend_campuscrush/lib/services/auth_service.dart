@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
-
 import '../core/constants/app_constants.dart';
 import '../modules/user_management/models/user.dart';
 import 'api_service.dart';
@@ -179,13 +178,32 @@ class AuthService extends ChangeNotifier {
 
   Future<bool> refreshUserProfile() async {
     if (_token == null || _token!.isEmpty) {
-      return false;
+      // Try to reload token from storage as a fallback
+      debugPrint(
+          'AuthService: No token set, attempting to reload from storage');
+      _token = await _storageService.getAuthToken();
+      if (_token == null || _token!.isEmpty) {
+        debugPrint(
+            'AuthService: Still no token after reload, cannot fetch user profile');
+        return false;
+      } else {
+        debugPrint(
+            'AuthService: Token reloaded from storage: [32m$_token[0m');
+        _apiService.setAuthToken(_token!);
+      }
     }
 
     try {
+      debugPrint('AuthService: Fetching user profile with token: $_token');
       final response = await _apiService.get(
         AppConstants.userProfileEndpoint,
       );
+      debugPrint(
+          'AuthService: User profile response status: [36m${response.statusCode}[0m');
+      debugPrint(
+          'AuthService: User profile response data: [36m${response.data}[0m');
+      debugPrint(
+          'AuthService: User profile response error: [31m${response.error}[0m');
 
       if (response.isSuccess && response.data != null) {
         _userData = response.data as Map<String, dynamic>;
@@ -196,12 +214,13 @@ class AuthService extends ChangeNotifier {
         await _storageService.saveUserData(_userData!);
         return true;
       } else {
-        // If profile fetch fails, clear auth state
+        debugPrint(
+            'AuthService: Failed to fetch user profile, clearing auth state');
         _clearAuthState();
         return false;
       }
     } catch (e) {
-      debugPrint("AuthService: Error refreshing user profile: $e");
+      debugPrint('AuthService: Exception fetching user profile: $e');
       _clearAuthState();
       return false;
     }
@@ -358,6 +377,12 @@ class AuthService extends ChangeNotifier {
     } finally {
       _finishOperation();
     }
+  }
+
+  void setToken(String token) {
+    _token = token;
+    _apiService.setAuthToken(token);
+    debugPrint('AuthService: Token set: [32m$token[0m');
   }
 
   @override

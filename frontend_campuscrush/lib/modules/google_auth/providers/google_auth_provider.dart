@@ -14,6 +14,7 @@ class GoogleAuthProvider extends ChangeNotifier {
   bool get isAuthenticated => _googleAuthService.isAuthenticated;
   bool get isLoading => _googleAuthService.isLoading;
   String? get error => _googleAuthService.error;
+  String? get token => _googleAuthService.token;
 
   // Sign in with Google
   Future<bool> signInWithGoogle() async {

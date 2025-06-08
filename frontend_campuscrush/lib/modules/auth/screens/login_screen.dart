@@ -10,6 +10,7 @@ import '../../../widgets/error_display.dart';
 import '../../../widgets/loading_overlay.dart';
 import '../../../screens/api_test_screen.dart';
 import '../../../modules/google_auth/providers/google_auth_provider.dart';
+import '../../../services/api_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -114,7 +115,26 @@ class _LoginScreenState extends State<LoginScreen> {
       if (!mounted) return;
 
       if (success) {
-        Navigator.pushReplacementNamed(context, AppRouter.home);
+        // Ensure token is set on the global ApiService and AuthService before navigating
+        final token = googleAuthProvider.token;
+        final apiService = Provider.of<ApiService>(context, listen: false);
+        final authService = Provider.of<AuthService>(context, listen: false);
+        if (token != null && token.isNotEmpty) {
+          apiService.setAuthToken(token);
+          authService.setToken(token);
+        }
+        // Fetch user profile before navigating
+        final profileSuccess = await authService.refreshUserProfile();
+        if (profileSuccess) {
+          Navigator.pushReplacementNamed(context, AppRouter.home);
+        } else {
+          _setLoading(false);
+          _showSnackbar(
+            'Failed to load your profile. Please try logging in again.',
+            backgroundColor: Colors.red[300],
+            duration: 4,
+          );
+        }
       } else {
         _setLoading(false);
         _showSnackbar(

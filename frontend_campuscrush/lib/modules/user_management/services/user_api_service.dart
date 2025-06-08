@@ -2,19 +2,18 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:dio/dio.dart';
+
 
 import '../../../services/api_service.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/utils/form_data_helper.dart';
 import '../models/user.dart';
-import '../../media/media_service.dart';
+
 
 /// Service for handling user-related API calls
 class UserApiService {
   final ApiService _apiService;
   final String _usersEndpoint = '${AppConstants.apiPrefix}/users';
-  final MediaService _mediaService = MediaService();
   static const _retryDelayMs = 500;
   static const _maxRetries = 2;
 

@@ -167,6 +167,19 @@ class GoogleAuthService extends ChangeNotifier {
         return await _handlePigeonUserDetailsError();
       }
 
+      // If the error is invalid-credential or similar, force a full sign-out and prompt retry
+      final errorString = e.toString().toLowerCase();
+      if (errorString.contains('credential') ||
+          errorString.contains('auth/invalid-credential')) {
+        debugPrint(
+            '❌ Detected invalid credential, forcing full Google sign-out');
+        await _googleSignIn.disconnect();
+        await _googleSignIn.signOut();
+        _setError(
+            'Your account credentials couldn\'t be verified. Please try again. We have reset your Google sign-in, so please try again now.');
+        return false;
+      }
+
       _setError(_getUserFriendlyErrorMessage(e));
       return false;
     } finally {

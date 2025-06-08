@@ -78,7 +78,7 @@ class NotificationItem extends StatelessWidget {
         decoration: BoxDecoration(
           color: notification.isRead
               ? null
-              : AppColors.primaryLight.withOpacity(0.1),
+              : AppColors.primaryLight.withValues(alpha: 11),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,

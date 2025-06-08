@@ -11,7 +11,6 @@ class AppConstants {
   // App info
   static const String appName = 'Campus Crush';
   static const String appVersion = '1.0.0';
-
   // API configuration
   static const String baseUrl = "https://campuscrush-sb89.onrender.com";
   static const List<String> fallbackBaseUrls = [

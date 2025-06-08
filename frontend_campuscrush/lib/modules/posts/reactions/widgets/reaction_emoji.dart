@@ -23,7 +23,7 @@ class ReactionEmoji extends StatelessWidget {
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.15),
+            color: Colors.black.withValues(alpha: 15),
             blurRadius: 2,
             spreadRadius: 0.5,
           ),

@@ -51,18 +51,19 @@ class HomeFeedProvider extends ChangeNotifier {
     _setLoadingState(true, clearItems: true);
 
     try {
-      // Ensure proper token initialization
+      // Ensure proper token initialization and user profile
       final hasValidToken = await _authService.hasValidToken();
       if (!hasValidToken) {
-        throw Exception('Your session has expired. Please log in again.');
-      }
-
-      if (_authService.currentUser == null) {
-        // Try to refresh user profile if we have a token but no user data
+        // Try to refresh token/profile before failing
         final refreshSuccess = await _authService.refreshUserProfile();
         if (!refreshSuccess) {
-          throw Exception('Please log in to view your feed.');
+          throw Exception('Your session has expired. Please log in again.');
         }
+      }
+
+      // Double-check after refresh
+      if (!await _authService.hasValidToken()) {
+        throw Exception('Your session has expired. Please log in again.');
       }
 
       final isConnected = await _authService.checkServerConnectivity();
@@ -95,10 +96,11 @@ class HomeFeedProvider extends ChangeNotifier {
     _hasMore = response.hasMore;
     _currentSkip = skip + response.items.length;
     _status = FeedStatus.loaded;
+    _errorMessage = '';
     notifyListeners();
   }
 
-  Future<void> _handleAuthErrors() async {
+  Future<void> _handleAuthErrors(BuildContext? context) async {
     final containsAuthError = _errorMessage.contains('session has expired') ||
         _errorMessage.contains('Please log in') ||
         _errorMessage.contains('Authentication required') ||
@@ -107,30 +109,22 @@ class HomeFeedProvider extends ChangeNotifier {
 
     if (!containsAuthError) return;
 
-    // Check if we have a token in storage before automatically logging out
-    final storageService = _authService.storageService;
-    final token = await storageService.getAuthToken();
-    if (token != null && token.isNotEmpty) {
-      // We have a token, so don't logout automatically
-      // Set a specific error message that encourages refreshing
-      _errorMessage =
-          'Authentication issue. Please try refreshing the page or restarting the app.';
-
-      // Preemptively update the API service with the token
-      // This helps when the Retry button is pressed
-      _authService.refreshUserProfile();
-      return;
-    }
-  
-    // Only logout as a last resort if we don't have a token
+    // Always log out and redirect to login if auth error is detected
     await _authService.logout();
     _errorMessage = 'Your session has expired. Please log in again.';
+    notifyListeners();
+    if (context != null) {
+      Future.delayed(const Duration(milliseconds: 100), () {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/login', (route) => false);
+      });
+    }
   }
 
-  void _handleFeedError(String error) {
+  void _handleFeedError(String error, {BuildContext? context}) {
     _status = FeedStatus.error;
     _errorMessage = error;
-    _handleAuthErrors();
+    _handleAuthErrors(context);
     notifyListeners();
   }
 
@@ -168,10 +162,30 @@ class HomeFeedProvider extends ChangeNotifier {
     _setLoadingState(true, clearItems: true);
 
     try {
-      await _authService.checkServerConnectivity();
+      // Ensure proper token initialization and user profile
+      final hasValidToken = await _authService.hasValidToken();
+      if (!hasValidToken) {
+        final refreshSuccess = await _authService.refreshUserProfile();
+        if (!refreshSuccess) {
+          throw Exception('Your session has expired. Please log in again.');
+        }
+      }
+
+      if (!await _authService.hasValidToken()) {
+        throw Exception('Your session has expired. Please log in again.');
+      }
+
+      final isConnected = await _authService.checkServerConnectivity();
+      if (!isConnected) {
+        throw Exception(
+            'Cannot connect to server. Please check your network connection and server status.');
+      }
+
       await _fetchFeed(0);
       await _fetchLatestCommentsForItems();
       await _syncReactionsWithPostProvider();
+      _errorMessage = '';
+      notifyListeners();
     } catch (e) {
       _handleFeedError(e.toString());
     }

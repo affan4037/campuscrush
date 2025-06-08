@@ -595,7 +595,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.1),
+              color: Colors.blue.withValues(alpha: 11),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(color: Colors.blue, width: 1),
             ),
@@ -654,7 +654,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.green.withOpacity(0.1),
+        color: Colors.green.withValues(alpha: 11),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.green, width: 1),
       ),

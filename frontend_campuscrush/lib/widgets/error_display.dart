@@ -55,7 +55,7 @@ class ErrorDisplay extends StatelessWidget {
             Icon(
               icon,
               size: iconSize,
-              color: theme.colorScheme.error.withOpacity(0.8),
+              color: theme.colorScheme.error.withValues(alpha: 191),
             ),
             const SizedBox(height: defaultSpacing),
             Text(

@@ -60,15 +60,15 @@ class GoogleSignInButton extends StatelessWidget {
             height: 20,
             child: CircularProgressIndicator(
               strokeWidth: 2.0,
-              valueColor:
-                  AlwaysStoppedAnimation<Color>(textColor.withOpacity(0.8)),
+              valueColor: AlwaysStoppedAnimation<Color>(
+                  textColor.withValues(alpha: 191)),
             ),
           ),
           const SizedBox(width: 12),
           Text(
             'Signing in...',
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: textColor.withOpacity(0.8),
+                  color: textColor.withValues(alpha: 191),
                   fontWeight: FontWeight.w500,
                 ),
           ),

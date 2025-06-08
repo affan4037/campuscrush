@@ -35,7 +35,7 @@ class ReactionOptions extends StatelessWidget {
           borderRadius: BorderRadius.circular(screenWidth * 0.06),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2),
+              color: Colors.black.withValues(alpha: 20),
               blurRadius: 8,
               offset: const Offset(0, 3),
             ),
